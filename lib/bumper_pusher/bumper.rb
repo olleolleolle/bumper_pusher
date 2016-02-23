@@ -284,9 +284,8 @@ module BumperPusher
 
       if @options[:install]
         if @spec_mode == GEM_SPEC_TYPE
-          execute_line_if_not_dry_run("gem build #{@spec_file}")
-          gem = find_current_gem_file
-          execute_line_if_not_dry_run("gem install #{gem}")
+          execute_line_if_not_dry_run("rake build")
+          execute_interactive_if_not_dry_run("rake install")
         end
       end
 
@@ -331,9 +330,11 @@ module BumperPusher
 
       if @options[:beta]
         if @spec_mode == GEM_SPEC_TYPE
-          execute_line_if_not_dry_run("gem build #{@spec_file}")
+          # execute_line_if_not_dry_run("gem build #{@spec_file}")
+          execute_line_if_not_dry_run("rake build")
           gem = find_current_gem_file
-          execute_interactive_if_not_dry_run("gem install #{gem}")
+          # execute_interactive_if_not_dry_run("gem install #{gem}")
+          execute_interactive_if_not_dry_run("rake install")
 
           execute_line_if_not_dry_run("sed -i \"\" \"s/#{bumped_version}/#{result}/\" README.md")
           execute_line_if_not_dry_run("sed -i \"\" \"s/#{bumped_version}/#{result}/\" #{find_version_file}")
